@@ -1,0 +1,270 @@
+import React, { useState } from 'react';
+import { styled } from '@mui/material/styles';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
+import AddIcon from '@mui/icons-material/Add';
+import EditIcon from '@mui/icons-material/Edit';
+import Modal from '@mui/material/Modal';
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+import DeleteIcon from '@mui/icons-material/Delete';
+
+const CardContainer = styled('div')({
+  marginBottom: '16px',
+  display: 'flex',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+});
+
+const AvatarContainer = styled('div')({
+  flex: '1',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+});
+
+const AvatarLetter = styled(Typography)({
+  fontSize: '24px',
+  marginRight: '16px',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  width: '40px',
+  height: '40px',
+  borderRadius: '50%',
+  backgroundColor: '#ddd',
+});
+
+const EducationDetailsContainer = styled('div')({
+  flex: '2',
+  wordBreak: 'break-word',
+});
+
+const EducationText = styled(Typography)({
+  marginBottom: '8px',
+  whiteSpace: 'nowrap',
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+});
+
+const IconsContainer = styled('div')({
+  flex: '3',
+  display: 'flex',
+  justifyContent: 'flex-end',
+  alignItems: 'center',
+});
+
+const ButtonContainer = styled('div')({
+  '& button': {
+    marginLeft: '8px',
+  },
+});
+
+const modalStyles = {
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+};
+
+const formStyles = {
+  display: 'flex',
+  flexDirection: 'column',
+};
+
+const buttonGroupStyles = {
+  display: 'flex',
+  justifyContent: 'flex-end',
+  marginTop: '16px',
+};
+
+export default function Education() {
+  const [educationList, setEducationList] = useState([]);
+  const [openModal, setOpenModal] = useState(false);
+  const [institution, setInstitution] = useState('');
+  const [degree, setDegree] = useState('');
+  const [major, setMajor] = useState('');
+  const [graduationYear, setGraduationYear] = useState('');
+  const [editIndex, setEditIndex] = useState(null);
+
+  const handleAddClick = () => {
+    setOpenModal(true);
+    setEditIndex(null);
+    clearFormFields();
+  };
+
+  const handleModalClose = () => {
+    setOpenModal(false);
+    clearFormFields();
+  };
+
+  const clearFormFields = () => {
+    setInstitution('');
+    setDegree('');
+    setMajor('');
+    setGraduationYear('');
+  };
+
+  const handleSaveEducation = () => {
+    const newEducation = {
+      institution,
+      degree,
+      major,
+      graduationYear,
+    };
+
+    if (editIndex !== null) {
+      const updatedEducationList = [...educationList];
+      updatedEducationList[editIndex] = newEducation;
+      setEducationList(updatedEducationList);
+    } else {
+      setEducationList([...educationList, newEducation]);
+    }
+
+    handleModalClose();
+  };
+
+  const handleEditClick = (index) => {
+    const education = educationList[index];
+    setInstitution(education.institution);
+    setDegree(education.degree);
+    setMajor(education.major);
+    setGraduationYear(education.graduationYear);
+    setEditIndex(index);
+    setOpenModal(true);
+  };
+
+  const handleDeleteClick = (index) => {
+    const updatedEducationList = [...educationList];
+    updatedEducationList.splice(index, 1);
+    setEducationList(updatedEducationList);
+    handleModalClose();
+  };
+
+  const getAvatar = (institution) => {
+    if (institution && institution.length > 0) {
+      return institution[0].toUpperCase();
+    }
+    return '';
+  };
+
+  return (
+    <div>
+      <CardContainer>
+        <CardContent>
+          <Typography variant="h5" component="h2" align="right">
+            Education
+          </Typography>
+        </CardContent>
+        <ButtonContainer>
+          <IconButton aria-label="add" onClick={handleAddClick}>
+            <AddIcon />
+          </IconButton>
+        </ButtonContainer>
+      </CardContainer>
+
+      {educationList.map((education, index) => (
+        <CardContainer key={index}>
+          <AvatarContainer>
+            <IconButton>
+              <AvatarLetter>
+                {getAvatar(education.institution)}
+              </AvatarLetter>
+            </IconButton>
+          </AvatarContainer>
+          <EducationDetailsContainer>
+            <CardContent>
+              <EducationText variant="body1" component="p">
+                <span style={{ color: 'black', fontWeight: 'bold' }}>
+                  {education.institution}
+                </span>
+              </EducationText>
+              <EducationText variant="body1" component="p">
+                {education.degree}
+              </EducationText>
+              <EducationText variant="body1" component="p">
+                {education.major}
+              </EducationText>
+              <EducationText variant="body1" component="p">
+                {education.graduationYear}
+              </EducationText>
+            </CardContent>
+          </EducationDetailsContainer>
+          <IconsContainer>
+            <ButtonContainer>
+              <IconButton aria-label="edit" onClick={() => handleEditClick(index)}>
+                <EditIcon />
+              </IconButton>
+              <IconButton aria-label="delete" onClick={() => handleDeleteClick(index)}>
+                <DeleteIcon />
+              </IconButton>
+            </ButtonContainer>
+          </IconsContainer>
+        </CardContainer>
+      ))}
+
+      <Modal
+        open={openModal}
+        onClose={handleModalClose}
+        aria-labelledby="modal-title"
+        aria-describedby="modal-description"
+        style={modalStyles}
+      >
+        <Box sx={{ width: 400, bgcolor: 'background.paper', p: 4 }}>
+          <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+            <IconButton
+              aria-label="delete"
+              onClick={() => handleDeleteClick(editIndex)}
+              sx={{ color: 'red' }}
+            >
+              {/* <DeleteIcon /> */}
+            </IconButton>
+          </Box>
+          <Typography variant="h6" component="h3" id="modal-title">
+            {editIndex !== null ? 'Edit Education' : 'Add Education'}
+          </Typography>
+          <form style={formStyles}>
+            <TextField
+              label="Institution"
+              value={institution}
+              onChange={(e) => setInstitution(e.target.value)}
+              margin="normal"
+              fullWidth
+            />
+            <TextField
+              label="Degree"
+              value={degree}
+              onChange={(e) => setDegree(e.target.value)}
+              margin="normal"
+              fullWidth
+            />
+            <TextField
+              label="Major"
+              value={major}
+              onChange={(e) => setMajor(e.target.value)}
+              margin="normal"
+              fullWidth
+            />
+            <TextField
+              label="Graduation Year"
+              value={graduationYear}
+              onChange={(e) => setGraduationYear(e.target.value)}
+              margin="normal"
+              fullWidth
+            />
+            <Box style={buttonGroupStyles}>
+              <Button variant="contained" onClick={handleModalClose} sx={{ bgcolor: 'red', color: 'white' }}>
+                Cancel
+              </Button>
+              <Button variant="contained" onClick={handleSaveEducation} sx={{ bgcolor: 'blue', color: 'white', ml: 2 }}>
+                Save
+              </Button>
+            </Box>
+          </form>
+        </Box>
+      </Modal>
+    </div>
+  );
+}

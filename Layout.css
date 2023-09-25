@@ -1,0 +1,90 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #F3F2EF;
+  }
+  
+  .container {
+    /* max-width: 1200px; */
+    width: 100%;
+    margin: 0 auto;
+  }
+  
+  /* Add styles for homeContainer */
+  .homeContainer {
+    /* max-width: 1200px; */
+    width: 100%;
+    margin: 0 auto;
+    /* padding: 20px; Add the desired padding around the home container */
+  }
+  
+  /* Add styles for mainMenuContainer */
+  .mainMenuContainer {
+    margin-bottom: 20px; /* Add margin at the bottom to create space between MainMenu and Feed */
+  }
+  
+  /* Add styles for feedContainer */
+  .feedContainer {
+    /* You can add any additional styles for the feed container here */
+    margin-bottom: 20px; /* Add margin at the bottom to create space between MainMenu and Feed */
+  }
+  
+  /* App Bar */
+  .appBar {
+    background-color: #ffffff; /* Set the background color for the app bar */
+    display: flex; /* Use Flexbox to create a horizontal layout */
+    align-items: center; /* Center items vertically in the app bar */
+    padding: 0 20px; /* Add padding to the app bar */
+  }
+  
+  /* Main Menu Toolbar */
+  .mainMenuToolbar {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    max-width: 1200px;
+    width: 100%;
+    height: 52px; /* Set the height of the app bar */
+    margin: 0 auto;
+  }
+  
+  /* Separator between Navigation Links and Profile Menu */
+  .separator {
+    width: 0.5px;
+    background-color: #EBEBEB;
+    height: 52px; /* Set the height of the separator */
+  }
+  
+  /* Search Box */
+  .searchBox {
+    display: flex;
+    align-items: center;
+    background-color: #eef3f8;
+    border-radius: 4px;
+    flex: 1;
+    height: 32px;
+    padding: 4px 10px;
+    max-width: 350px;
+    margin-right: 250px;
+  }
+  
+  /* Navigation Links */
+  .navbar-links {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+  
+  /* Navigation Link Items */
+  .navLinkItem {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+  }
+  
+  /* Profile Menu */
+  .userProfileMenu {
+    margin-left: 5px; /* Move the profile menu to the right */
+  }
+  
